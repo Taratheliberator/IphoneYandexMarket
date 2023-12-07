@@ -1,6 +1,5 @@
 package tests;
 
-
 import com.codeborne.selenide.ElementsCollection;
 import io.qameta.allure.Step;
 import org.example.pageobjects.YandexPage;
@@ -16,16 +15,28 @@ import java.util.stream.Stream;
 
 import static org.example.helpers.Assertions.assertTrue;
 
+/**
+ * Класс для тестирования функциональности фильтрации смартфонов на Яндекс Маркете.
+ */
 public class MarketTest extends TestBase {
 
     private YandexPage yandexPage;
 
+    /**
+     * Подготавливает окружение перед каждым тестом.
+     * Инициализирует страницу Яндекс Маркета.
+     */
     @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
         yandexPage = app.yandex();
     }
 
+    /**
+     * Тестирование фильтрации смартфонов по заданным производителям.
+     * @param vendors Список производителей для фильтрации.
+     * @throws InterruptedException В случае прерывания во время ожидания загрузки элементов.
+     */
     @ParameterizedTest
     @MethodSource("provideDataForMarketTest")
     @Step("Тестирование фильтрации смартфонов с параметрами: производители - {vendors}")
@@ -42,28 +53,19 @@ public class MarketTest extends TestBase {
                 .loadAllSmartphones();
         ElementsCollection allSmartphones = yandexPage.getList();
 
-        for (WebElement notebook : allSmartphones) {
-            String SmartphonesInfo = notebook.getText();
-
-            assertTrue(yandexPage.isSmartphoneValid(SmartphonesInfo), "\nСмартфон не удовлетворяет условиям фильтра: \n" + SmartphonesInfo);
+        for (WebElement smartphone : allSmartphones) {
+            String smartphoneInfo = smartphone.getText();
+            assertTrue(yandexPage.isSmartphoneValid(smartphoneInfo), "\nСмартфон не удовлетворяет условиям фильтра: \n" + smartphoneInfo);
         }
-
     }
 
+    /**
+     * Предоставляет данные для параметризованного теста.
+     * @return Поток аргументов, содержащих списки производителей.
+     */
     private static Stream<Arguments> provideDataForMarketTest() {
         return Stream.of(
                 Arguments.of(Arrays.asList("Apple"))
         );
     }
 }
-
-
-
-
-
-
-
-
-
-
-
