@@ -29,39 +29,36 @@ public class YandexPage {
         marketButton.click();
         return this;
     }
-
+    @Step("Переход в раздел 'Электроника'")
     public YandexPage goToElectronics() {
         electronicsMenu.hover();
         return this;
     }
-
+    @Step("Переход в раздел 'Смартфоны'")
     public YandexPage goSmartphones() {
         smartphonesButton.shouldBe(visible).click();
         return this;
     }
-
+    @Step("Открытие фильтра")
     public YandexPage openFilter() {
         allFilters.click();
         return this;
     }
-
+    @Step("Показ результатов")
     public YandexPage showResults() {
         resultsButton.click();
         return this;
     }
-
+    @Step("Установка имени производителя: {0}")
     public YandexPage setVendorName(String name) {
         $x(String.format("//label[contains(.,'%s')]", name)).click();
         return this;
     }
-
-    public boolean isTargetPresent(String name) {
-        return $x(String.format("//span[contains(text(),'%s')]", name)).shouldBe(visible).isDisplayed();
-    }
-
+    @Step("Получение списка элементов")
     public ElementsCollection getList() {
         return noteList;
     }
+
     @Attachment(value = "Скриншот списка смартфонов", type = "image/png")
     private byte[] takeScreenshot() {
         return Selenide.screenshot(OutputType.BYTES);
@@ -71,7 +68,7 @@ public class YandexPage {
         int loadedSmartphonesCount = 0;
 
         while (true) {
-            // Проверяем наличие и видимость кнопки "Показать еще"
+
             ElementsCollection showMoreButtons = $$("button[data-auto='pager-more']").filter(Condition.visible);
 
             if (showMoreButtons.isEmpty()) {
@@ -79,13 +76,12 @@ public class YandexPage {
                 break;
             }
 
-            // Нажимаем на кнопку "Показать еще"
+
             showMoreButtons.first().click();
 
-            // Ждем, пока новые элементы загрузятся
-            Thread.sleep(1000); // Это пример, лучше использовать явное ожидание.
 
-            // Обновляем количество загруженных смартфонов
+            Thread.sleep(1000);
+
             ElementsCollection noteList = $$x("//*[@data-autotest-id='offer-snippet' or @data-autotest-id='product-snippet']");
             loadedSmartphonesCount = noteList.size();
 
