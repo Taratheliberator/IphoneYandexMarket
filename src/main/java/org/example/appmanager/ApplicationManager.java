@@ -20,23 +20,15 @@ public class ApplicationManager {
 
     public void init() throws IOException {
         properties.load(new FileReader(new File("src/test/resources/test.properties")));
-
-        // Настройка Selenide
         Configuration.baseUrl = properties.getProperty("web.baseUrl");
-        Configuration.timeout = 30000; // Неявное ожидание
+        Configuration.timeout = 30000;
         Configuration.browserSize = "1920x1080";
-
-        // Переход на базовый URL
         open(Configuration.baseUrl);
-
-        // Инициализация страниц
         yandexPage = new YandexPage();
     }
-
     public void stop() {
-        closeWebDriver(); // Закрытие браузера Selenide
+        closeWebDriver();
     }
-
     public YandexPage yandex() {
         return yandexPage;
     }

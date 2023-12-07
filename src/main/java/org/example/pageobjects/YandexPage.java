@@ -76,15 +76,10 @@ public class YandexPage {
                 break;
             }
 
-
             showMoreButtons.first().click();
-
-
             Thread.sleep(1000);
-
             ElementsCollection noteList = $$x("//*[@data-autotest-id='offer-snippet' or @data-autotest-id='product-snippet']");
             loadedSmartphonesCount = noteList.size();
-
             System.out.println("Загружено смартфонов на текущий момент: " + loadedSmartphonesCount);
             takeScreenshot();
 
