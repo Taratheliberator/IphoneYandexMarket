@@ -24,7 +24,7 @@ public class YandexPage {
     private SelenideElement searchField = $(By.name("text"));
 
     private ElementsCollection noteList = $$x("//*[@data-autotest-id='offer-snippet' or @data-autotest-id='product-snippet']");
-
+    @Step("Переход в раздел 'Каталог'")
     public YandexPage goToMarket() {
         marketButton.click();
         return this;
